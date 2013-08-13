@@ -39,7 +39,7 @@ class Screen {
     size(canvasWidth, canvasHeight);
       
     background(0);
-    colorMode(HSB, 100);
+    colorMode(HSB, 360, 100, 100);
   
     registry = new DeviceRegistry();
     registry.setExtraDelay(0);

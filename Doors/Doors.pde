@@ -11,13 +11,15 @@ import processing.core.*;
 Screen screen;
 
 void setup() {
+//  frameRate(1);
   screen = new Screen();
 }
 
 void draw() {
   //fxSweep();
   //fxBarSweep();
-  fxFlame();
+  //fxFlame();
+  fxFairy();
   screen.paint();
 }
 
@@ -93,18 +95,16 @@ void fxFlame() {
   // Add some new motes if we can
   if (flame.size() < maxMotes) {
     int spark = int(random(maxCluster));
-println("Flame.size() == " + flame.size() + " : sparking " + spark);
+//println("Flame.size() == " + flame.size() + " : sparking " + spark);
     for (int i=0; i<spark; i++) {
       int stripNum = int(random(4));
       flame.add(new Mote(stripNum));
     }
   }
 
-  // Clear out all the current values  
-  //xformClear();
+  // Clear out all the current values
   screen.resetLEDs();
 
-  //for (Mote mote : flame) {
   for (int i=0; i<flame.size(); i++) {
     Mote mote = flame.get(i);
     screen.ledVal[mote.strip][mote.pos] = mote.col;
@@ -115,3 +115,35 @@ println("Flame.size() == " + flame.size() + " : sparking " + spark);
   }
 }
 
+ArrayList<Fairy> pinhead = new ArrayList<Fairy>();
+int maxFairies = 1;
+
+void fxFairy() {
+  if (pinhead.size() < maxFairies) {
+    int stripNum = int(random(4));
+    pinhead.add(new Fairy(stripNum, 20)); 
+  }
+  
+  // Clear out current values
+  screen.resetLEDs();
+
+  for (int n=0; n<pinhead.size(); n++) {
+    Fairy fairy = pinhead.get(n);
+
+    IntList pixels = fairy.getPixels();
+//    print("Fairy out: ");
+    for (int p=fairy.startPixel(); p<fairy.startPixel()+pixels.size(); p++) {
+//      print(p+":"+brightness(pixels.get(p-fairy.startPixel())) + " / ");
+      // Ignore pixels that are out of bounds
+      if ((p >= 0) && (p < screen.stripLen[fairy.strip])) {
+        screen.ledVal[fairy.strip][p] = pixels.get(p-fairy.startPixel());
+      }
+    }
+//    println();
+
+    fairy.move();
+    if (fairy.isGone(screen.stripLen[fairy.strip])) {
+      pinhead.remove(fairy); 
+    }
+  }
+}

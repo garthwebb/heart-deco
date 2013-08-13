@@ -9,11 +9,11 @@ class Mote {
     int hueRange = int(random(100));
     int hue;
     if (hueRange > 90) {
-      hue = int(random(10, 15));
+      hue = int(random(40, 60));
     } else if (hueRange > 80) {
-      hue = int(random(5, 10));
+      hue = int(random(20, 40));
     } else {
-      hue = int(random(0, 5));
+      hue = int(random(0, 20));
     }
     
     // Get a random color in the red/orange/yellow area with higher saturation and value numbers
