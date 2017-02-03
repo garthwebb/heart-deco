@@ -1,4 +1,4 @@
 heart-deco
 ==========
 
-Code for PixelPusher lightss
+Code for PixelPusher lights
